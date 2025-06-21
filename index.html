@@ -593,43 +593,6 @@
             transform: rotate(90deg);
         }
 
-        /* Admin Panel Styles */
-        .admin-panel {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--border-radius);
-        }
-
-        .admin-toggle {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .question-list {
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-        }
-
-        .question-item {
-            padding: 10px;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            position: relative;
-        }
-
-        .question-item-actions {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-
         /* Print Styles - REVISED FOR BETTER PRINTING */
         @media print {
             body * {
@@ -847,37 +810,6 @@
                 <input type="text" id="fullname" class="form-control" placeholder="Masukkan nama lengkap" oninput="validateNameInput(this)">
             </div>
             
-            <div class="admin-toggle">
-                <button id="toggle-admin-btn" class="btn btn-info">Mode Admin</button>
-            </div>
-            
-            <div id="admin-panel" class="admin-panel">
-                <h3>Admin Panel - Tambah Soal</h3>
-                <div class="form-group">
-                    <label for="question-text" class="form-label">Pertanyaan</label>
-                    <textarea id="question-text" class="form-control" placeholder="Masukkan pertanyaan"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Opsi Jawaban</label>
-                    <input type="text" id="option-1" class="form-control" placeholder="Opsi 1 (Jawaban Benar)">
-                    <input type="text" id="option-2" class="form-control" placeholder="Opsi 2">
-                    <input type="text" id="option-3" class="form-control" placeholder="Opsi 3">
-                    <input type="text" id="option-4" class="form-control" placeholder="Opsi 4">
-                </div>
-                
-                <div class="form-group">
-                    <label for="explanation-text" class="form-label">Penjelasan</label>
-                    <textarea id="explanation-text" class="form-control" placeholder="Masukkan penjelasan jawaban"></textarea>
-                </div>
-                
-                <button id="add-question-btn" class="btn btn-success">Tambah Soal</button>
-                
-                <div class="question-list" id="question-list">
-                    <!-- Existing questions will be listed here -->
-                </div>
-            </div>
-            
             <button id="start-btn" class="btn">Mulai Quiz</button>
         </div>
         
@@ -969,8 +901,8 @@
             '0-49': 'Jangan menyerah! Gunakan hasil ini sebagai motivasi untuk belajar lebih giat lagi.'
         };
         
-        // Default quiz questions
-        const DEFAULT_QUESTIONS = [
+        // Quiz questions - can be modified or expanded as needed
+        const QUIZ_QUESTIONS = [
             {
                 question: "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
                 options: [
@@ -1025,14 +957,66 @@
                 ],
                 correctAnswer: 0,
                 explanation: "100 hari = 14 minggu + 2 hari (14*7=98). Senin + 2 hari = Rabu."
+            },
+            {
+                question: "Jika 1=5, 2=25, 3=125, 4=625, maka 5=?",
+                options: [
+                    "A. 3125",
+                    "B. 625",
+                    "C. 5",
+                    "D. 125"
+                ],
+                correctAnswer: 2,
+                explanation: "Pola ini adalah 5 pangkat n, tapi perhatikan bahwa 1=5 (5^1), jadi 5=1 (kembali ke awal)."
+            },
+            {
+                question: "Sebuah keluarga memiliki 6 anak perempuan dan masing-masing memiliki 1 saudara laki-laki. Berapa total anak dalam keluarga tersebut?",
+                options: [
+                    "A. 6",
+                    "B. 7",
+                    "C. 12",
+                    "D. 13"
+                ],
+                correctAnswer: 1,
+                explanation: "6 anak perempuan + 1 saudara laki-laki (yang sama untuk semua) = total 7 anak."
+            },
+            {
+                question: "Jika setengah dari 5 adalah 3, maka sepertiga dari 10 adalah?",
+                options: [
+                    "A. 3",
+                    "B. 4",
+                    "C. 5",
+                    "D. 6"
+                ],
+                correctAnswer: 1,
+                explanation: "Pola ini menggunakan angka romawi: V (5) setengahnya adalah III (3), X (10) sepertiganya adalah IV (4)."
+            },
+            {
+                question: "Sebuah lift dapat membawa maksimal 500 kg. Ada 4 orang dengan berat 60 kg, 80 kg, 100 kg, dan 120 kg ingin naik. Berapa jumlah maksimal orang yang bisa naik lift sekaligus?",
+                options: [
+                    "A. 1",
+                    "B. 2",
+                    "C. 3",
+                    "D. 4"
+                ],
+                correctAnswer: 3,
+                explanation: "Total berat 4 orang adalah 360 kg (60+80+100+120), masih di bawah 500 kg, jadi semua bisa naik."
+            },
+            {
+                question: "Jika 2 kucing dapat menangkap 2 tikus dalam 2 menit, berapa kucing yang dibutuhkan untuk menangkap 100 tikus dalam 100 menit?",
+                options: [
+                    "A. 2",
+                    "B. 5",
+                    "C. 10",
+                    "D. 100"
+                ],
+                correctAnswer: 0,
+                explanation: "2 kucing menangkap 2 tikus dalam 2 menit berarti 1 kucing menangkap 1 tikus dalam 2 menit. Jadi 2 kucing bisa menangkap 100 tikus dalam 100 menit."
             }
         ];
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Load questions from localStorage or use default
-            loadQuestionsFromStorage();
-            
             // Initialize particles.js for background
             particlesJS('particles-js', {
                 "particles": {
@@ -1230,8 +1214,6 @@
             document.getElementById('print-certificate-btn').addEventListener('click', printCertificate);
             document.getElementById('retake-quiz-btn').addEventListener('click', retakeQuiz);
             document.getElementById('whatsapp-btn').addEventListener('click', contactAdmin);
-            document.getElementById('toggle-admin-btn').addEventListener('click', toggleAdminPanel);
-            document.getElementById('add-question-btn').addEventListener('click', addNewQuestion);
         });
 
         // Function to play button click sound
@@ -1247,98 +1229,6 @@
             
             // Convert to uppercase
             input.value = input.value.toUpperCase();
-        }
-        
-        // Function to toggle admin panel
-        function toggleAdminPanel() {
-            const adminPanel = document.getElementById('admin-panel');
-            if (adminPanel.style.display === 'block') {
-                adminPanel.style.display = 'none';
-                document.getElementById('toggle-admin-btn').textContent = 'Mode Admin';
-            } else {
-                adminPanel.style.display = 'block';
-                document.getElementById('toggle-admin-btn').textContent = 'Tutup Panel';
-                updateQuestionList();
-            }
-        }
-        
-        // Function to load questions from localStorage
-        function loadQuestionsFromStorage() {
-            const savedQuestions = localStorage.getItem('quizQuestions');
-            if (savedQuestions) {
-                questions = JSON.parse(savedQuestions);
-            } else {
-                questions = [...DEFAULT_QUESTIONS];
-                saveQuestionsToStorage();
-            }
-        }
-        
-        // Function to save questions to localStorage
-        function saveQuestionsToStorage() {
-            localStorage.setItem('quizQuestions', JSON.stringify(questions));
-        }
-        
-        // Function to update the question list in admin panel
-        function updateQuestionList() {
-            const questionList = document.getElementById('question-list');
-            questionList.innerHTML = '';
-            
-            questions.forEach((question, index) => {
-                const questionItem = document.createElement('div');
-                questionItem.className = 'question-item';
-                questionItem.innerHTML = `
-                    <p><strong>Soal ${index + 1}:</strong> ${question.question}</p>
-                    <div class="question-item-actions">
-                        <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${index})">Hapus</button>
-                    </div>
-                `;
-                questionList.appendChild(questionItem);
-            });
-        }
-        
-        // Function to add a new question
-        function addNewQuestion() {
-            const questionText = document.getElementById('question-text').value.trim();
-            const option1 = document.getElementById('option-1').value.trim();
-            const option2 = document.getElementById('option-2').value.trim();
-            const option3 = document.getElementById('option-3').value.trim();
-            const option4 = document.getElementById('option-4').value.trim();
-            const explanation = document.getElementById('explanation-text').value.trim();
-            
-            if (!questionText || !option1 || !option2 || !option3 || !option4 || !explanation) {
-                alert('Silakan lengkapi semua field!');
-                return;
-            }
-            
-            const newQuestion = {
-                question: questionText,
-                options: [option1, option2, option3, option4],
-                correctAnswer: 0, // First option is always correct in this implementation
-                explanation: explanation
-            };
-            
-            questions.push(newQuestion);
-            saveQuestionsToStorage();
-            updateQuestionList();
-            
-            // Clear form
-            document.getElementById('question-text').value = '';
-            document.getElementById('option-1').value = '';
-            document.getElementById('option-2').value = '';
-            document.getElementById('option-3').value = '';
-            document.getElementById('option-4').value = '';
-            document.getElementById('explanation-text').value = '';
-            
-            alert('Soal berhasil ditambahkan!');
-        }
-        
-        // Function to delete a question
-        function deleteQuestion(index) {
-            if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
-                questions.splice(index, 1);
-                saveQuestionsToStorage();
-                updateQuestionList();
-            }
         }
         
         function startQuiz() {
@@ -1361,27 +1251,12 @@
                 answered: 0,
                 correct: 0,
                 wrong: 0,
-                unanswered: questions.length,
-                answers: Array(questions.length).fill(null)
+                unanswered: QUIZ_QUESTIONS.length,
+                answers: Array(QUIZ_QUESTIONS.length).fill(null)
             };
             
-            // Shuffle questions while maintaining correct answer tracking
-            const shuffledQuestions = shuffleArray(questions);
-            
-            // Create a mapping between original and shuffled questions
-            const questionMap = questions.map((q, i) => {
-                const shuffledIndex = shuffledQuestions.findIndex(sq => sq.question === q.question);
-                return {
-                    originalIndex: i,
-                    shuffledIndex: shuffledIndex
-                };
-            });
-            
-            // Store the mapping for scoring purposes
-            quizData.questionMap = questionMap;
-            
-            // Use shuffled questions for the quiz
-            quizData.shuffledQuestions = shuffledQuestions;
+            // Shuffle questions
+            questions = shuffleArray(QUIZ_QUESTIONS);
             
             // Play opening audio
             audioOpening.currentTime = 0;
@@ -1448,15 +1323,10 @@
         }
         
         function loadQuestion(index) {
-            if (index < 0 || index >= quizData.shuffledQuestions.length) return;
+            if (index < 0 || index >= questions.length) return;
             
             currentQuestionIndex = index;
-            const question = quizData.shuffledQuestions[index];
-            
-            // Find the original question index for scoring
-            const originalIndex = quizData.questionMap.find(
-                q => q.shuffledIndex === index
-            ).originalIndex;
+            const question = questions[index];
             
             // Update question text
             document.getElementById('question-text').textContent = `Soal ${index + 1}: ${question.question}`;
@@ -1472,8 +1342,8 @@
                 optionElement.textContent = option;
                 
                 // Check if this question was already answered
-                if (quizData.answers[originalIndex] !== null) {
-                    if (quizData.answers[originalIndex] === i) {
+                if (quizData.answers[index] !== null) {
+                    if (quizData.answers[index] === i) {
                         if (i === question.correctAnswer) {
                             optionElement.classList.add('correct');
                         } else {
@@ -1489,7 +1359,7 @@
                 } else {
                     // Add click event for unanswered questions
                     optionElement.addEventListener('click', function() {
-                        selectAnswer(originalIndex, index, i);
+                        selectAnswer(index, i);
                     });
                 }
                 
@@ -1497,16 +1367,16 @@
             });
             
             // Hide explanation if question not answered
-            if (quizData.answers[originalIndex] === null) {
+            if (quizData.answers[index] === null) {
                 document.getElementById('explanation-text').style.display = 'none';
             }
         }
         
-        function selectAnswer(originalIndex, shuffledIndex, answerIndex) {
-            const question = quizData.shuffledQuestions[shuffledIndex];
+        function selectAnswer(questionIndex, answerIndex) {
+            const question = questions[questionIndex];
             
             // Record answer
-            quizData.answers[originalIndex] = answerIndex;
+            quizData.answers[questionIndex] = answerIndex;
             
             // Update counters
             quizData.answered++;
@@ -1525,18 +1395,18 @@
             }
             
             // Reload question to show result
-            loadQuestion(shuffledIndex);
+            loadQuestion(questionIndex);
             
             // Auto move to next question after delay if not last question
-            if (shuffledIndex < quizData.shuffledQuestions.length - 1) {
+            if (questionIndex < questions.length - 1) {
                 setTimeout(() => {
-                    loadQuestion(shuffledIndex + 1);
+                    loadQuestion(questionIndex + 1);
                 }, 2000);
             }
         }
         
         function skipQuestion() {
-            if (currentQuestionIndex < quizData.shuffledQuestions.length - 1) {
+            if (currentQuestionIndex < questions.length - 1) {
                 loadQuestion(currentQuestionIndex + 1);
             }
         }
