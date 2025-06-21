@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Tebak Logika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #FF6B35;
+            --color-secondary: #FFA630;
+            --color-tertiary: #EF8A17;
+            --color-primary-dark: #D45B00;
+            --color-primary-light: #FF9E4F;
+            --color-success: #4CAF50;
+            --color-error: #f44336;
+            --color-warning: #ff9800;
+            --color-info: #2196F3;
+            --color-dark: #1a1a2e;
+            --color-light: #f8f9fa;
+            --color-card-bg: rgba(255, 255, 255, 0.08);
+            --color-card-border: rgba(255, 255, 255, 0.15);
+            --color-text-light: #FFFFFF;
+            --color-text-dark: #333333;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary), var(--color-secondary));
+            color: var(--color-text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        #celebration-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            pointer-events: none;
+            display: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            height: 80px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.3rem; }
+        h5 { font-size: 1.1rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--color-card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid var(--color-card-border);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
+            margin: 8px 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 166, 48, 0.4);
+            background: linear-gradient(to right, var(--color-tertiary), var(--color-secondary));
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(to right, var(--color-success), #2ecc71);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, var(--color-error), #e74c3c);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(to right, var(--color-warning), #f39c12);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn-info {
+            background: linear-gradient(to right, var(--color-info), #3498db);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 166, 48, 0.2);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--color-text-light);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Radio and Checkbox Styles */
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .radio-option, .checkbox-option {
+            display: none;
+        }
+
+        .radio-label, .checkbox-label {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .radio-option:checked + .radio-label,
+        .checkbox-option:checked + .checkbox-label {
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
+        }
+
+        /* Animation Classes */
+        .slide-in {
+            animation: slideIn 0.5s forwards;
+        }
+
+        .slide-out {
+            animation: slideOut 0.5s forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Timer Styles */
+        .timer {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--color-text-light);
+            transition: var(--transition);
+        }
+
+        .timer-warning {
+            color: var(--color-warning);
+            font-size: 2rem;
+        }
+
+        .timer-danger {
+            color: var(--color-error);
+            font-size: 2.2rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            animation: slideUp 0.5s forwards;
+            max-width: 90%;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @keyframes slideUp {
+            from { bottom: -50px; opacity: 0; }
+            to { bottom: 20px; opacity: 1; }
+        }
+
+        /* Question Styles */
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .option.correct {
+            background: var(--color-success);
+            animation: correctAnswer 0.5s;
+        }
+
+        .option.incorrect {
+            background: var(--color-error);
+            animation: incorrectAnswer 0.5s;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswer {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .explanation {
+            margin-top: 1.5rem;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        /* Certificate Styles - REVISED FOR PRINTING */
+        .certificate {
+            background: white;
+            color: var(--color-text-dark);
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            width: 210mm; /* A4 width */
+            height: 297mm; /* A4 height */
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/certificate.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            page-break-after: avoid;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .certificate-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 60px;
+            margin: 0 auto;
+            width: 80%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .certificate-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--color-primary-dark);
+            text-transform: uppercase;
+        }
+
+        .certificate-code {
+            font-size: 14px;
+            margin-bottom: 30px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .certificate-recipient {
+            font-size: 48px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .certificate-body {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+            color: var(--color-text-dark);
+        }
+
+        .certificate-score {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin: 20px 0;
+        }
+
+        .certificate-motivation {
+            font-style: italic;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .certificate-footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .certificate-signature {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        .certificate-barcode {
+            margin: 15px auto;
+            height: 80px;
+            width: auto;
+        }
+
+        /* Floating Button Styles */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--box-shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .floating-btn .tooltip {
+            position: absolute;
+            right: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .floating-btn:hover .tooltip {
+            opacity: 1;
+            right: 70px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            color: var(--color-text-dark);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-primary-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--color-error);
+            transform: rotate(90deg);
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+        }
+
+        .admin-toggle {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .question-list {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .question-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .question-item-actions {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        /* Print Styles - REVISED FOR BETTER PRINTING */
+        @media print {
+            body * {
+                visibility: hidden;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .certificate, 
+            .certificate * {
+                visibility: visible;
+                background: transparent !important;
+                color: #333 !important;
+            }
+            
+            .certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 210mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                background-image: url('https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/certificate.png') !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .certificate-content {
+                padding: 40px 60px !important;
+                margin: 0 auto !important;
+                width: 80% !important;
+                height: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+            }
+            
+            .certificate-recipient {
+                font-size: 48px !important;
+                font-family: 'Dancing Script', cursive !important;
+            }
+            
+            .floating-buttons, 
+            .results-summary, 
+            .result-actions {
+                display: none !important;
+            }
+            
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .certificate-content {
+                padding: 30px;
+                width: 85%;
+            }
+            
+            .certificate-title {
+                font-size: 24px;
+            }
+            
+            .certificate-recipient {
+                font-size: 42px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.3rem; }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .certificate-content {
+                padding: 25px;
+                width: 90%;
+            }
+            
+            .certificate-title {
+                font-size: 22px;
+            }
+            
+            .certificate-recipient {
+                font-size: 36px;
+            }
+            
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.2rem; }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .form-control {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .certificate-content {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .certificate-title {
+                font-size: 20px;
+            }
+            
+            .certificate-recipient {
+                font-size: 32px;
+            }
+            
+            .radio-group, .checkbox-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .radio-label, .checkbox-label {
+                padding: 8px 15px;
+            }
+            
+            .exam-controls {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="celebration-particles"></div>
+    
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="card slide-in">
+            <div class="header">
+                <img src="https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/logo.png" alt="Quiz Logo" class="logo">
+                <h1>Quiz Tebak Logika</h1>
+            </div>
+            
+            <div id="greeting-message">
+                <p id="greeting-text">Selamat datang di Quiz Tebak Logika. Silakan masukkan nama Anda untuk memulai.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="fullname" class="form-label">Nama Lengkap</label>
+                <input type="text" id="fullname" class="form-control" placeholder="Masukkan nama lengkap" oninput="validateNameInput(this)">
+            </div>
+            
+            <div class="admin-toggle">
+                <button id="toggle-admin-btn" class="btn btn-info">Mode Admin</button>
+            </div>
+            
+            <div id="admin-panel" class="admin-panel">
+                <h3>Admin Panel - Tambah Soal</h3>
+                <div class="form-group">
+                    <label for="question-text" class="form-label">Pertanyaan</label>
+                    <textarea id="question-text" class="form-control" placeholder="Masukkan pertanyaan"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Opsi Jawaban</label>
+                    <input type="text" id="option-1" class="form-control" placeholder="Opsi 1 (Jawaban Benar)">
+                    <input type="text" id="option-2" class="form-control" placeholder="Opsi 2">
+                    <input type="text" id="option-3" class="form-control" placeholder="Opsi 3">
+                    <input type="text" id="option-4" class="form-control" placeholder="Opsi 4">
+                </div>
+                
+                <div class="form-group">
+                    <label for="explanation-text" class="form-label">Penjelasan</label>
+                    <textarea id="explanation-text" class="form-control" placeholder="Masukkan penjelasan jawaban"></textarea>
+                </div>
+                
+                <button id="add-question-btn" class="btn btn-success">Tambah Soal</button>
+                
+                <div class="question-list" id="question-list">
+                    <!-- Existing questions will be listed here -->
+                </div>
+            </div>
+            
+            <button id="start-btn" class="btn">Mulai Quiz</button>
+        </div>
+        
+        <!-- Exam Screen (Hidden Initially) -->
+        <div id="quiz-screen" class="card" style="display: none;">
+            <div class="timer" id="quiz-timer">05:00</div>
+            
+            <div class="question-container">
+                <div class="question" id="question-text">Memuat soal...</div>
+                
+                <div class="options" id="options-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+                
+                <div class="explanation" id="explanation-text">
+                    <!-- Explanation will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="exam-controls">
+                <button id="finish-quiz-btn" class="btn btn-danger">Selesaikan Quiz Sekarang</button>
+                <button id="skip-question-btn" class="btn btn-warning">Lewati Soal</button>
+            </div>
+        </div>
+        
+        <!-- Results Screen (Hidden Initially) -->
+        <div id="results-screen" class="card" style="display: none;">
+            <h2>Hasil Quiz</h2>
+            
+            <div class="results-summary">
+                <p>Nama: <span id="result-name"></span></p>
+                <p>Jumlah Soal: <span id="total-questions"></span></p>
+                <p>Jawaban Benar: <span id="correct-answers"></span></p>
+                <p>Jawaban Salah: <span id="wrong-answers"></span></p>
+                <p>Nilai: <span id="quiz-score"></span></p>
+            </div>
+            
+            <div class="certificate-container" id="certificate-container" style="display: none;">
+                <!-- Certificate will be generated here -->
+            </div>
+            
+            <div class="result-actions">
+                <button id="print-certificate-btn" class="btn btn-success">Cetak Sertifikat</button>
+                <button id="retake-quiz-btn" class="btn btn-info">Ulangi Quiz</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <button class="floating-btn" id="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i>
+            <span class="tooltip">Hubungi Kami</span>
+        </button>
+    </div>
+    
+    <!-- Audio Elements -->
+    <audio id="audio-opening" src="https://github.com/pergunu/pergunusmart/blob/main/assets/audio/opening.mp3?raw=true" preload="auto"></audio>
+    <audio id="audio-button-click" src="https://voca.ro/16oVT0NTCKF0" preload="auto"></audio>
+    <audio id="audio-correct" src="https://voca.ro/1emZhDVU89XS" preload="auto"></audio>
+    <audio id="audio-wrong" src="https://voca.ro/17HW0ShxqM9B" preload="auto"></audio>
+    <audio id="audio-applause" src="https://voca.ro/13NRsLENyQRIs" preload="auto"></audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Global variables
+        let currentScreen = 'welcome';
+        let participantData = {};
+        let quizData = {};
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let quizTimeLeft = 5 * 60; // 5 minutes in seconds
+        let quizTimer;
+        
+        // Audio elements
+        const audioOpening = document.getElementById('audio-opening');
+        const audioButtonClick = document.getElementById('audio-button-click');
+        const audioCorrect = document.getElementById('audio-correct');
+        const audioWrong = document.getElementById('audio-wrong');
+        const audioApplause = document.getElementById('audio-applause');
+        
+        // Motivational messages based on score
+        const MOTIVATIONAL_MESSAGES = {
+            '90-100': 'Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.',
+            '80-89': 'Hasil yang sangat baik! Anda telah menunjukkan pemahaman yang mendalam tentang logika.',
+            '70-79': 'Kerja bagus! Anda memiliki pemahaman yang baik tentang logika.',
+            '60-69': 'Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda untuk hasil yang lebih baik.',
+            '50-59': 'Anda sudah memahami dasar-dasarnya. Terus berlatih untuk meningkatkan pemahaman.',
+            '0-49': 'Jangan menyerah! Gunakan hasil ini sebagai motivasi untuk belajar lebih giat lagi.'
+        };
+        
+        // Default quiz questions
+        const DEFAULT_QUESTIONS = [
+            {
+                question: "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
+                options: [
+                    "A. Budi adalah makhluk hidup",
+                    "B. Budi bukan makhluk hidup",
+                    "C. Tidak bisa disimpulkan",
+                    "D. Semua jawaban salah"
+                ],
+                correctAnswer: 0,
+                explanation: "Jika semua manusia adalah makhluk hidup dan Budi adalah manusia, maka Budi pasti makhluk hidup."
+            },
+            {
+                question: "A, B, C, D, E, F, G. Huruf apakah selanjutnya?",
+                options: [
+                    "A. H",
+                    "B. I",
+                    "C. J",
+                    "D. K"
+                ],
+                correctAnswer: 0,
+                explanation: "Ini adalah urutan abjad, huruf selanjutnya setelah G adalah H."
+            },
+            {
+                question: "Jika 3 orang dapat menyelesaikan pekerjaan dalam 6 hari, berapa hari yang dibutuhkan 6 orang untuk menyelesaikan pekerjaan yang sama?",
+                options: [
+                    "A. 3 hari",
+                    "B. 6 hari",
+                    "C. 12 hari",
+                    "D. 18 hari"
+                ],
+                correctAnswer: 0,
+                explanation: "Jika jumlah pekerja digandakan, waktu yang dibutuhkan akan setengahnya (3 hari)."
+            },
+            {
+                question: "Ayah Budi memiliki 5 anak: Nana, Nini, Nuno, Nene. Siapa nama anak kelima?",
+                options: [
+                    "A. Nino",
+                    "B. Nani",
+                    "C. Budi",
+                    "D. Tidak bisa ditentukan"
+                ],
+                correctAnswer: 2,
+                explanation: "Pertanyaan menyebutkan 'Ayah Budi memiliki 5 anak', jadi anak kelima adalah Budi."
+            },
+            {
+                question: "Jika hari ini adalah hari Senin, 100 hari lagi adalah hari apa?",
+                options: [
+                    "A. Rabu",
+                    "B. Kamis",
+                    "C. Jumat",
+                    "D. Sabtu"
+                ],
+                correctAnswer: 0,
+                explanation: "100 hari = 14 minggu + 2 hari (14*7=98). Senin + 2 hari = Rabu."
+            }
+        ];
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load questions from localStorage or use default
+            loadQuestionsFromStorage();
+            
+            // Initialize particles.js for background
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Initialize celebration particles (hidden by default)
+            particlesJS('celebration-particles', {
+                "particles": {
+                    "number": {
+                        "value": 150,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": ["#FF6B35", "#FFA630", "#EF8A17", "#FF9E4F", "#D45B00", "#FF8C42"]
+                    },
+                    "shape": {
+                        "type": ["circle", "triangle", "star"],
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.7,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 4,
+                            "size_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": false
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 6,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": false
+                        },
+                        "onclick": {
+                            "enable": false
+                        },
+                        "resize": true
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Event listeners for all buttons to play click sound
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    playButtonClickSound();
+                });
+            });
+            
+            // Main event listeners
+            document.getElementById('start-btn').addEventListener('click', startQuiz);
+            document.getElementById('finish-quiz-btn').addEventListener('click', finishQuiz);
+            document.getElementById('skip-question-btn').addEventListener('click', skipQuestion);
+            document.getElementById('print-certificate-btn').addEventListener('click', printCertificate);
+            document.getElementById('retake-quiz-btn').addEventListener('click', retakeQuiz);
+            document.getElementById('whatsapp-btn').addEventListener('click', contactAdmin);
+            document.getElementById('toggle-admin-btn').addEventListener('click', toggleAdminPanel);
+            document.getElementById('add-question-btn').addEventListener('click', addNewQuestion);
+        });
+
+        // Function to play button click sound
+        function playButtonClickSound() {
+            audioButtonClick.currentTime = 0;
+            audioButtonClick.play().catch(e => console.log("Button click sound prevented:", e));
+        }
+
+        // Function to validate name input (letters only)
+        function validateNameInput(input) {
+            // Remove any numbers or special characters
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+            
+            // Convert to uppercase
+            input.value = input.value.toUpperCase();
+        }
+        
+        // Function to toggle admin panel
+        function toggleAdminPanel() {
+            const adminPanel = document.getElementById('admin-panel');
+            if (adminPanel.style.display === 'block') {
+                adminPanel.style.display = 'none';
+                document.getElementById('toggle-admin-btn').textContent = 'Mode Admin';
+            } else {
+                adminPanel.style.display = 'block';
+                document.getElementById('toggle-admin-btn').textContent = 'Tutup Panel';
+                updateQuestionList();
+            }
+        }
+        
+        // Function to load questions from localStorage
+        function loadQuestionsFromStorage() {
+            const savedQuestions = localStorage.getItem('quizQuestions');
+            if (savedQuestions) {
+                questions = JSON.parse(savedQuestions);
+            } else {
+                questions = [...DEFAULT_QUESTIONS];
+                saveQuestionsToStorage();
+            }
+        }
+        
+        // Function to save questions to localStorage
+        function saveQuestionsToStorage() {
+            localStorage.setItem('quizQuestions', JSON.stringify(questions));
+        }
+        
+        // Function to update the question list in admin panel
+        function updateQuestionList() {
+            const questionList = document.getElementById('question-list');
+            questionList.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionItem = document.createElement('div');
+                questionItem.className = 'question-item';
+                questionItem.innerHTML = `
+                    <p><strong>Soal ${index + 1}:</strong> ${question.question}</p>
+                    <div class="question-item-actions">
+                        <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${index})">Hapus</button>
+                    </div>
+                `;
+                questionList.appendChild(questionItem);
+            });
+        }
+        
+        // Function to add a new question
+        function addNewQuestion() {
+            const questionText = document.getElementById('question-text').value.trim();
+            const option1 = document.getElementById('option-1').value.trim();
+            const option2 = document.getElementById('option-2').value.trim();
+            const option3 = document.getElementById('option-3').value.trim();
+            const option4 = document.getElementById('option-4').value.trim();
+            const explanation = document.getElementById('explanation-text').value.trim();
+            
+            if (!questionText || !option1 || !option2 || !option3 || !option4 || !explanation) {
+                alert('Silakan lengkapi semua field!');
+                return;
+            }
+            
+            const newQuestion = {
+                question: questionText,
+                options: [option1, option2, option3, option4],
+                correctAnswer: 0, // First option is always correct in this implementation
+                explanation: explanation
+            };
+            
+            questions.push(newQuestion);
+            saveQuestionsToStorage();
+            updateQuestionList();
+            
+            // Clear form
+            document.getElementById('question-text').value = '';
+            document.getElementById('option-1').value = '';
+            document.getElementById('option-2').value = '';
+            document.getElementById('option-3').value = '';
+            document.getElementById('option-4').value = '';
+            document.getElementById('explanation-text').value = '';
+            
+            alert('Soal berhasil ditambahkan!');
+        }
+        
+        // Function to delete a question
+        function deleteQuestion(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
+                questions.splice(index, 1);
+                saveQuestionsToStorage();
+                updateQuestionList();
+            }
+        }
+        
+        function startQuiz() {
+            const fullname = document.getElementById('fullname').value.trim();
+            
+            if (!fullname) {
+                alert('Silakan masukkan nama Anda');
+                return;
+            }
+            
+            // Collect participant data
+            participantData = {
+                fullname: fullname,
+                quizDate: new Date().toISOString()
+            };
+            
+            // Initialize quiz data
+            quizData = {
+                startTime: new Date(),
+                answered: 0,
+                correct: 0,
+                wrong: 0,
+                unanswered: questions.length,
+                answers: Array(questions.length).fill(null)
+            };
+            
+            // Shuffle questions while maintaining correct answer tracking
+            const shuffledQuestions = shuffleArray(questions);
+            
+            // Create a mapping between original and shuffled questions
+            const questionMap = questions.map((q, i) => {
+                const shuffledIndex = shuffledQuestions.findIndex(sq => sq.question === q.question);
+                return {
+                    originalIndex: i,
+                    shuffledIndex: shuffledIndex
+                };
+            });
+            
+            // Store the mapping for scoring purposes
+            quizData.questionMap = questionMap;
+            
+            // Use shuffled questions for the quiz
+            quizData.shuffledQuestions = shuffledQuestions;
+            
+            // Play opening audio
+            audioOpening.currentTime = 0;
+            audioOpening.play().catch(e => console.log("Audio play prevented:", e));
+            
+            // Hide welcome screen with slide out animation
+            document.getElementById('welcome-screen').classList.add('slide-out');
+            
+            // Show quiz screen after animation completes
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('quiz-screen').style.display = 'block';
+                document.getElementById('quiz-screen').classList.add('slide-in');
+                currentScreen = 'quiz';
+                
+                // Start timer
+                startTimer();
+                
+                // Load first question
+                loadQuestion(0);
+            }, 500);
+        }
+        
+        // Helper function to shuffle array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+        
+        function startTimer() {
+            // Update timer display immediately
+            updateTimerDisplay();
+            
+            // Start timer interval
+            quizTimer = setInterval(function() {
+                quizTimeLeft--;
+                updateTimerDisplay();
+                
+                // Check if time is up
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimer);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(quizTimeLeft / 60);
+            const seconds = quizTimeLeft % 60;
+            
+            const timerElement = document.getElementById('quiz-timer');
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change style based on remaining time
+            if (quizTimeLeft <= 60) { // 1 minute or less
+                timerElement.classList.add('timer-danger');
+            } else {
+                timerElement.classList.remove('timer-danger');
+            }
+        }
+        
+        function loadQuestion(index) {
+            if (index < 0 || index >= quizData.shuffledQuestions.length) return;
+            
+            currentQuestionIndex = index;
+            const question = quizData.shuffledQuestions[index];
+            
+            // Find the original question index for scoring
+            const originalIndex = quizData.questionMap.find(
+                q => q.shuffledIndex === index
+            ).originalIndex;
+            
+            // Update question text
+            document.getElementById('question-text').textContent = `Soal ${index + 1}: ${question.question}`;
+            
+            // Clear previous options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                
+                // Check if this question was already answered
+                if (quizData.answers[originalIndex] !== null) {
+                    if (quizData.answers[originalIndex] === i) {
+                        if (i === question.correctAnswer) {
+                            optionElement.classList.add('correct');
+                        } else {
+                            optionElement.classList.add('incorrect');
+                        }
+                    } else if (i === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    }
+                    
+                    // Show explanation if answered
+                    document.getElementById('explanation-text').style.display = 'block';
+                    document.getElementById('explanation-text').innerHTML = `<strong>Penjelasan:</strong> ${question.explanation}`;
+                } else {
+                    // Add click event for unanswered questions
+                    optionElement.addEventListener('click', function() {
+                        selectAnswer(originalIndex, index, i);
+                    });
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Hide explanation if question not answered
+            if (quizData.answers[originalIndex] === null) {
+                document.getElementById('explanation-text').style.display = 'none';
+            }
+        }
+        
+        function selectAnswer(originalIndex, shuffledIndex, answerIndex) {
+            const question = quizData.shuffledQuestions[shuffledIndex];
+            
+            // Record answer
+            quizData.answers[originalIndex] = answerIndex;
+            
+            // Update counters
+            quizData.answered++;
+            quizData.unanswered--;
+            
+            if (answerIndex === question.correctAnswer) {
+                quizData.correct++;
+                // Play correct answer sound
+                audioCorrect.currentTime = 0;
+                audioCorrect.play().catch(e => console.log("Audio play prevented:", e));
+            } else {
+                quizData.wrong++;
+                // Play wrong answer sound
+                audioWrong.currentTime = 0;
+                audioWrong.play().catch(e => console.log("Audio play prevented:", e));
+            }
+            
+            // Reload question to show result
+            loadQuestion(shuffledIndex);
+            
+            // Auto move to next question after delay if not last question
+            if (shuffledIndex < quizData.shuffledQuestions.length - 1) {
+                setTimeout(() => {
+                    loadQuestion(shuffledIndex + 1);
+                }, 2000);
+            }
+        }
+        
+        function skipQuestion() {
+            if (currentQuestionIndex < quizData.shuffledQuestions.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            }
+        }
+        
+        function finishQuiz() {
+            clearInterval(quizTimer);
+            
+            // Calculate unanswered questions
+            quizData.unanswered = quizData.answers.filter(answer => answer === null).length;
+            
+            // Generate certificate code
+            const certificateCode = generateCertificateCode(participantData.fullname);
+            
+            // Hide quiz screen with slide out animation
+            document.getElementById('quiz-screen').classList.add('slide-out');
+            
+            // Show results screen after animation completes
+            setTimeout(() => {
+                document.getElementById('quiz-screen').style.display = 'none';
+                document.getElementById('results-screen').style.display = 'block';
+                document.getElementById('results-screen').classList.add('slide-in');
+                currentScreen = 'results';
+                
+                // Display results
+                displayResults();
+                
+                // Generate certificate
+                generateCertificate(certificateCode);
+                
+                // Show celebration particles
+                showCelebration();
+                
+                // Play applause sound
+                audioApplause.currentTime = 0;
+                audioApplause.play().catch(e => console.log("Audio play prevented:", e));
+            }, 500);
+        }
+        
+        function generateCertificateCode(fullname) {
+            // Get current date components
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const year = now.getFullYear().toString().slice(-2);
+            
+            // Clean and format the name
+            const cleanedName = fullname.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
+            const nameParts = cleanedName.split(' ');
+            
+            // Create name code - use first 3 letters of first name and last name
+            let nameCode = '';
+            if (nameParts.length === 1) {
+                nameCode = nameParts[0].substring(0, 6).padEnd(6, 'X');
+            } else {
+                const firstName = nameParts[0];
+                const lastName = nameParts[nameParts.length - 1];
+                nameCode = (firstName.substring(0, 3) + lastName.substring(0, 3)).padEnd(6, 'X');
+            }
+            
+            // Generate unique 8-digit alphanumeric code
+            const uniqueCode = generateUniqueCode(fullname + now.getTime());
+            
+            // Combine all components
+            return `${nameCode}/QUIZ/${day}${month}${year}/${uniqueCode}`;
+        }
+        
+        function generateUniqueCode(input) {
+            // Create a hash from the input string
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            
+            // Convert hash to alphanumeric string (excluding similar characters like 0/O, 1/I)
+            const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let result = '';
+            let remaining = Math.abs(hash);
+            
+            for (let i = 0; i < 8; i++) {
+                const index = remaining % chars.length;
+                result += chars.charAt(index);
+                remaining = Math.floor(remaining / chars.length);
+            }
+            
+            // Format as XXXX-XXXX
+            return result.substring(0, 4) + '-' + result.substring(4, 8);
+        }
+        
+        function displayResults() {
+            document.getElementById('result-name').textContent = participantData.fullname;
+            document.getElementById('total-questions').textContent = questions.length;
+            document.getElementById('correct-answers').textContent = quizData.correct;
+            document.getElementById('wrong-answers').textContent = quizData.wrong;
+            
+            // Calculate score (percentage)
+            const score = Math.round((quizData.correct / questions.length) * 100);
+            document.getElementById('quiz-score').textContent = `${score}%`;
+        }
+        
+        function generateCertificate(certificateCode) {
+            const certificateContainer = document.getElementById('certificate-container');
+            certificateContainer.innerHTML = '';
+            
+            // Calculate score
+            const score = Math.round((quizData.correct / questions.length) * 100);
+            
+            // Get current date
+            const now = new Date();
+            
+            // Get motivational message based on score
+            let motivation = '';
+            for (const range in MOTIVATIONAL_MESSAGES) {
+                const [min, max] = range.split('-').map(Number);
+                if (score >= min && score <= max) {
+                    motivation = MOTIVATIONAL_MESSAGES[range];
+                    break;
+                }
+            }
+            
+            // Create certificate HTML
+            const certificate = document.createElement('div');
+            certificate.className = 'certificate';
+            
+            certificate.innerHTML = `
+                <div class="certificate-content">
+                    <h1 class="certificate-title">SERTIFIKAT PRESTASI</h1>
+                    <p class="certificate-code">${certificateCode}</p>
+                    <p>Diberikan Kepada</p>
+                    <h2 class="certificate-recipient">${formatName(participantData.fullname)}</h2>
+                    <p class="certificate-body">
+                        Atas Partisipasi & Pencapaian Luar Biasa Dalam<br>
+                        <strong>Quiz Tebak Logika</strong>
+                    </p>
+                    <p class="certificate-body">
+                        Sebagai penghargaan atas dedikasi dalam mengasah kemampuan logika dan pemecahan masalah.
+                    </p>
+                    <div class="certificate-score">Nilai: ${score}%</div>
+                    <p class="certificate-motivation">${motivation}</p>
+                    <div class="certificate-footer">
+                        <p>Ditetapkan di: ${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        <div class="certificate-signature">
+                            <p>Penyelenggara Quiz</p>
+                            <p><strong>Tim Quiz Tebak Logika</strong></p>
+                        </div>
+                        <img src="https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/BARCODE.png" alt="Barcode" class="certificate-barcode">
+                    </div>
+                </div>
+            `;
+            
+            certificateContainer.appendChild(certificate);
+            certificateContainer.style.display = 'block';
+        }
+        
+        function showCelebration() {
+            // Show celebration particles
+            document.getElementById('celebration-particles').style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                document.getElementById('celebration-particles').style.display = 'none';
+            }, 5000);
+        }
+        
+        function formatName(name) {
+            return name.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).join(' ');
+        }
+        
+        function printCertificate() {
+            // Hide floating buttons
+            document.querySelector('.floating-buttons').style.display = 'none';
+            
+            // Hide other elements in results screen
+            document.querySelector('.results-summary').style.display = 'none';
+            document.querySelector('.result-actions').style.display = 'none';
+            
+            // Print the certificate
+            window.print();
+            
+            // Show elements again after printing
+            setTimeout(() => {
+                document.querySelector('.floating-buttons').style.display = 'flex';
+                document.querySelector('.results-summary').style.display = 'block';
+                document.querySelector('.result-actions').style.display = 'block';
+            }, 500);
+        }
+        
+        function retakeQuiz() {
+            // Reset quiz time
+            quizTimeLeft = 5 * 60;
+            
+            // Hide results screen with slide out animation
+            document.getElementById('results-screen').classList.add('slide-out');
+            
+            // Show welcome screen after animation completes
+            setTimeout(() => {
+                document.getElementById('results-screen').style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'block';
+                document.getElementById('welcome-screen').classList.add('slide-in');
+                currentScreen = 'welcome';
+            }, 500);
+        }
+        
+        function contactAdmin() {
+            const message = encodeURIComponent("Halo, saya ingin bertanya tentang Quiz Tebak Logika...");
+            window.open(`https://wa.me/6285647709114?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
