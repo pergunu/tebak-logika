@@ -815,7 +815,7 @@
         
         <!-- Exam Screen (Hidden Initially) -->
         <div id="quiz-screen" class="card" style="display: none;">
-            <div class="timer" id="quiz-timer">05:00</div>
+            <div class="timer" id="quiz-timer">60:00</div>
             
             <div class="question-container">
                 <div class="question" id="question-text">Memuat soal...</div>
@@ -881,7 +881,7 @@
         let quizData = {};
         let questions = [];
         let currentQuestionIndex = 0;
-        let quizTimeLeft = 5 * 60; // 5 minutes in seconds
+        let quizTimeLeft = 60 * 60; // 60 minutes in seconds (perubahan dari 5 menit menjadi 60 menit)
         let quizTimer;
         
         // Audio elements
@@ -902,117 +902,609 @@
         };
         
         // Quiz questions - can be modified or expanded as needed
+        // Array soal bisa ditambah tanpa batas dan akan dihitung otomatis oleh sistem
         const QUIZ_QUESTIONS = [
-            {
-                question: "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
-                options: [
-                    "A. Budi adalah makhluk hidup",
-                    "B. Budi bukan makhluk hidup",
-                    "C. Tidak bisa disimpulkan",
-                    "D. Semua jawaban salah"
-                ],
-                correctAnswer: 0,
-                explanation: "Jika semua manusia adalah makhluk hidup dan Budi adalah manusia, maka Budi pasti makhluk hidup."
-            },
-            {
-                question: "A, B, C, D, E, F, G. Huruf apakah selanjutnya?",
-                options: [
-                    "A. H",
-                    "B. I",
-                    "C. J",
-                    "D. K"
-                ],
-                correctAnswer: 0,
-                explanation: "Ini adalah urutan abjad, huruf selanjutnya setelah G adalah H."
-            },
-            {
-                question: "Jika 3 orang dapat menyelesaikan pekerjaan dalam 6 hari, berapa hari yang dibutuhkan 6 orang untuk menyelesaikan pekerjaan yang sama?",
-                options: [
-                    "A. 3 hari",
-                    "B. 6 hari",
-                    "C. 12 hari",
-                    "D. 18 hari"
-                ],
-                correctAnswer: 0,
-                explanation: "Jika jumlah pekerja digandakan, waktu yang dibutuhkan akan setengahnya (3 hari)."
-            },
-            {
-                question: "Ayah Budi memiliki 5 anak: Nana, Nini, Nuno, Nene. Siapa nama anak kelima?",
-                options: [
-                    "A. Nino",
-                    "B. Nani",
-                    "C. Budi",
-                    "D. Tidak bisa ditentukan"
-                ],
-                correctAnswer: 2,
-                explanation: "Pertanyaan menyebutkan 'Ayah Budi memiliki 5 anak', jadi anak kelima adalah Budi."
-            },
-            {
-                question: "Jika hari ini adalah hari Senin, 100 hari lagi adalah hari apa?",
-                options: [
-                    "A. Rabu",
-                    "B. Kamis",
-                    "C. Jumat",
-                    "D. Sabtu"
-                ],
-                correctAnswer: 0,
-                explanation: "100 hari = 14 minggu + 2 hari (14*7=98). Senin + 2 hari = Rabu."
-            },
-            {
-                question: "Jika 1=5, 2=25, 3=125, 4=625, maka 5=?",
-                options: [
-                    "A. 3125",
-                    "B. 625",
-                    "C. 5",
-                    "D. 125"
-                ],
-                correctAnswer: 2,
-                explanation: "Pola ini adalah 5 pangkat n, tapi perhatikan bahwa 1=5 (5^1), jadi 5=1 (kembali ke awal)."
-            },
-            {
-                question: "Sebuah keluarga memiliki 6 anak perempuan dan masing-masing memiliki 1 saudara laki-laki. Berapa total anak dalam keluarga tersebut?",
-                options: [
-                    "A. 6",
-                    "B. 7",
-                    "C. 12",
-                    "D. 13"
-                ],
-                correctAnswer: 1,
-                explanation: "6 anak perempuan + 1 saudara laki-laki (yang sama untuk semua) = total 7 anak."
-            },
-            {
-                question: "Jika setengah dari 5 adalah 3, maka sepertiga dari 10 adalah?",
-                options: [
-                    "A. 3",
-                    "B. 4",
-                    "C. 5",
-                    "D. 6"
-                ],
-                correctAnswer: 1,
-                explanation: "Pola ini menggunakan angka romawi: V (5) setengahnya adalah III (3), X (10) sepertiganya adalah IV (4)."
-            },
-            {
-                question: "Sebuah lift dapat membawa maksimal 500 kg. Ada 4 orang dengan berat 60 kg, 80 kg, 100 kg, dan 120 kg ingin naik. Berapa jumlah maksimal orang yang bisa naik lift sekaligus?",
-                options: [
-                    "A. 1",
-                    "B. 2",
-                    "C. 3",
-                    "D. 4"
-                ],
-                correctAnswer: 3,
-                explanation: "Total berat 4 orang adalah 360 kg (60+80+100+120), masih di bawah 500 kg, jadi semua bisa naik."
-            },
-            {
-                question: "Jika 2 kucing dapat menangkap 2 tikus dalam 2 menit, berapa kucing yang dibutuhkan untuk menangkap 100 tikus dalam 100 menit?",
-                options: [
-                    "A. 2",
-                    "B. 5",
-                    "C. 10",
-                    "D. 100"
-                ],
-                correctAnswer: 0,
-                explanation: "2 kucing menangkap 2 tikus dalam 2 menit berarti 1 kucing menangkap 1 tikus dalam 2 menit. Jadi 2 kucing bisa menangkap 100 tikus dalam 100 menit."
-            }
+           {
+            question: "Sebuah keluarga terdiri dari ayah, ibu, dan dua anak. Mereka berjalan di tengah hujan deras tetapi tidak ada satu pun yang basah. Bagaimana mungkin?",
+            options: [
+                "A. Mereka menggunakan payung besar",
+                "B. Mereka sedang berada di dalam mobil",
+                "C. Hujan sebenarnya hanya gerimis",
+                "D. Mereka adalah hantu yang tidak bisa basah",
+                "E. Mereka sedang berada di bawah pohon yang rindang"
+            ],
+            correctAnswer: 1,
+            explanation: "Mereka tidak basah karena sedang berada di dalam mobil yang melindungi mereka dari hujan. Pilihan lain tidak logis (D) atau tidak menjelaskan mengapa tidak ada yang basah sama sekali (A, C, E)."
+        },
+        {
+            question: "Aku selalu di depanmu tetapi tidak pernah terlihat. Aku selalu mengikutimu ke mana pun kau pergi. Apakah aku?",
+            options: [
+                "A. Bayanganmu",
+                "B. Masa depan",
+                "C. Udara",
+                "D. Pikiranmu",
+                "E. Nafasmu"
+            ],
+            correctAnswer: 1,
+            explanation: "Masa depan selalu 'di depan' kita dan tidak terlihat, serta mengikuti kita ke mana pun kita pergi. Bayangan (A) bisa terlihat, udara (C) dan nafas (E) bukan konsep yang tepat, pikiran (D) tidak selalu di depan."
+        },
+        {
+            question: "Jika semua Brok adalah Krak, dan tidak ada Krak yang Prok, maka dapat dipastikan bahwa...",
+            options: [
+                "A. Tidak ada Brok yang Prok",
+                "B. Beberapa Brok mungkin Prok",
+                "C. Semua Prok adalah Brok",
+                "D. Beberapa Krak adalah Brok",
+                "E. Tidak ada Krak yang Brok"
+            ],
+            correctAnswer: 0,
+            explanation: "Jika semua Brok adalah Krak, dan tidak ada Krak yang Prok, maka tidak mungkin ada Brok yang Prok. Ini adalah silogisme logis yang ketat."
+        },
+        {
+            question: "Sebuah lift di gedung pencakar langit hanya bisa menampung 4 orang. Suatu hari, 5 orang masuk dan lift tidak overload. Bagaimana mungkin?",
+            options: [
+                "A. Salah satu orang adalah anak kecil",
+                "B. Salah satu orang sedang hamil",
+                "C. Salah satu orang bukan manusia",
+                "D. Berat mereka ringan semua",
+                "E. Salah satu orang adalah operator lift"
+            ],
+            correctAnswer: 2,
+            explanation: "Lift tidak overload karena salah satu 'orang' tersebut sebenarnya bukan manusia (misalnya robot atau boneka). Pilihan lain tidak menjelaskan mengapa lift tidak overload (A, B, D) atau tidak relevan (E)."
+        },
+        {
+            question: "Aku punya kota tapi tidak ada rumah. Aku punya gunung tapi tidak ada pohon. Aku punya laut tapi tidak ada air. Apakah aku?",
+            options: [
+                "A. Peta",
+                "B. Mimpi",
+                "C. Lukisan abstrak",
+                "D. Globe",
+                "E. Foto udara"
+            ],
+            correctAnswer: 0,
+            explanation: "Peta memiliki representasi kota, gunung, dan laut tetapi tidak memiliki rumah, pohon, atau air yang sebenarnya. Globe (D) memiliki representasi 3D, bukan pilihan terbaik."
+        },
+        {
+            question: "Jika hari ini adalah hari Kamis, dan Sarah mengatakan 'Besok aku akan berbohong', pada hari apa Sarah mengatakan kebenaran?",
+            options: [
+                "A. Senin",
+                "B. Selasa",
+                "C. Rabu",
+                "D. Kamis",
+                "E. Jumat"
+            ],
+            correctAnswer: 2,
+            explanation: "Jika Sarah berbohong di hari Kamis tentang akan berbohong besok (Jumat), maka sebenarnya dia akan jujur di Jumat. Tapi jika dia jujur di Kamis tentang akan berbohong di Jumat, maka di Jumat dia harus berbohong - kontradiksi. Satu-satunya solusi konsisten adalah dia berbohong di Kamis dan Jumat, dan mengatakan kebenaran di Rabu."
+        },
+        {
+            question: "Sebuah koin dilempar 5 kali berturut-turut. Hasilnya adalah Gambar, Gambar, Gambar, Gambar, Gambar. Pada lemparan ke-6, mana yang lebih mungkin muncul?",
+            options: [
+                "A. Gambar",
+                "B. Angka",
+                "C. Keduanya sama mungkin",
+                "D. Tidak bisa diprediksi",
+                "E. Koin akan berdiri tegak"
+            ],
+            correctAnswer: 2,
+            explanation: "Meskipun sudah muncul Gambar 5 kali berturut-turut, probabilitas untuk Gambar atau Angka pada lemparan ke-6 tetap sama (50-50), karena lemparan koin adalah kejadian independen."
+        },
+        {
+            question: "Seorang pria melihat foto seseorang dan berkata 'Aku tidak punya saudara laki-laki atau perempuan, tetapi ayah orang ini adalah anak dari ayahku'. Siapa orang dalam foto tersebut?",
+            options: [
+                "A. Anaknya sendiri",
+                "B. Ayahnya sendiri",
+                "C. Sepupunya",
+                "D. Kakeknya",
+                "E. Dirinya sendiri saat muda"
+            ],
+            correctAnswer: 0,
+            explanation: "Jika pria tersebut tidak punya saudara, maka 'anak dari ayahku' harus dirinya sendiri. Jadi ayah orang dalam foto adalah dirinya, yang berarti orang dalam foto adalah anaknya."
+        },
+        {
+            question: "Di sebuah ruangan ada 3 saklar di luar dan 1 lampu di dalam ruangan tertutup. Kamu hanya boleh masuk sekali ke ruangan itu. Bagaimana menentukan saklar mana yang mengontrol lampu?",
+            options: [
+                "A. Nyalakan saklar pertama 5 menit, matikan, nyalakan saklar kedua, lalu masuk",
+                "B. Nyalakan semua saklar bersamaan lalu masuk",
+                "C. Nyalakan saklar pertama 10 menit, matikan, nyalakan saklar kedua, lalu masuk",
+                "D. Nyalakan saklar pertama dan kedua, tunggu sebentar, matikan kedua, nyalakan ketiga, lalu masuk",
+                "E. Nyalakan saklar pertama 1 jam, matikan, nyalakan saklar kedua, lalu masuk"
+            ],
+            correctAnswer: 2,
+            explanation: "Nyalakan saklar pertama (A) cukup lama hingga lampu panas (10 menit), matikan, nyalakan saklar kedua (B), lalu masuk. Jika lampu menyala - kontrol B, jika mati tapi hangat - kontrol A, jika mati dan dingin - kontrol C."
+        },
+        {
+            question: "Aku menjadi lebih basah saat mengering. Apakah aku?",
+            options: [
+                "A. Spons",
+                "B. Handuk",
+                "C. Es batu",
+                "D. Tanah liat",
+                "E. Kain lap"
+            ],
+            correctAnswer: 1,
+            explanation: "Handuk menjadi lebih basah (menyerap air) saat digunakan untuk mengeringkan sesuatu. Pilihan lain tidak tepat karena spons (A) dan kain lap (E) tidak 'mengering', es batu (C) mencair, tanah liat (D) tidak relevan."
+        },
+		{
+            question: "Sebuah kapal tenggelam di laut, tetapi semua penumpangnya selamat. Bagaimana mungkin?",
+            options: [
+                "A. Mereka semua memakai pelampung",
+                "B. Kapal itu adalah kapal selam",
+                "C. Mereka diselamatkan oleh tim SAR",
+                "D. Kapal tenggelam di air yang sangat dangkal",
+                "E. Mereka adalah hantu yang tidak bisa tenggelam"
+            ],
+            correctAnswer: 1,
+            explanation: "Kapal selam memang dirancang untuk 'tenggelam' (menyelam) secara terkontrol tanpa membahayakan penumpangnya. Pilihan lain tidak menjelaskan mengapa kapal bisa tenggelam tetapi semua selamat."
+        },
+        {
+            question: "Aku selalu bertambah berat ketika kau mengambil sesuatu dariku. Apakah aku?",
+            options: [
+                "A. Sumur",
+                "B. Lubang",
+                "C. Tas",
+                "D. Bank",
+                "E. Batu"
+            ],
+            correctAnswer: 1,
+            explanation: "Lubang akan 'bertambah berat' (volume tanah yang diambil) ketika Anda menggali/mengambil tanah darinya. Sumur (A) tidak tepat karena air yang diambil, bukan strukturnya."
+        },
+        {
+            question: "Jika semua Zog adalah Zig, dan beberapa Zig adalah Zag, maka pernyataan mana yang pasti benar?",
+            options: [
+                "A. Beberapa Zog adalah Zag",
+                "B. Semua Zag adalah Zog",
+                "C. Tidak ada Zog yang Zag",
+                "D. Beberapa Zag adalah Zog",
+                "E. Semua Zig adalah Zog"
+            ],
+            correctAnswer: 0,
+            explanation: "Jika semua Zog adalah Zig, dan beberapa Zig adalah Zag, maka pasti beberapa Zog adalah Zag (meskipun tidak semua). Hubungan lainnya tidak dapat dipastikan kebenarannya."
+        },
+        {
+            question: "Aku bisa berjalan tanpa kaki, menangis tanpa mata. Ke mana pun aku pergi, kegelapan mengikutiku. Apakah aku?",
+            options: [
+                "A. Bayangan",
+                "B. Awan",
+                "C. Malam",
+                "D. Asap",
+                "E. Suara"
+            ],
+            correctAnswer: 2,
+            explanation: "Malam 'berjalan' (datang), bisa 'menangis' (hujan), dan membawa kegelapan. Bayangan (A) tidak tepat karena tidak bisa menangis, awan (B) tidak selalu membawa kegelapan."
+        },
+        {
+            question: "Di sebuah ruangan tertutup ada lilin menyala, kompor gas yang hidup, dan lampu minyak. Apa yang akan kamu padamkan pertama kali?",
+            options: [
+                "A. Lilin",
+                "B. Kompor gas",
+                "C. Lampu minyak",
+                "D. Semuanya bersamaan",
+                "E. Tidak memadamkan apapun"
+            ],
+            correctAnswer: 1,
+            explanation: "Kompor gas adalah sumber bahaya terbesar yang bisa menyebabkan ledakan. Pertanyaan ini menguji kemampuan prioritas dalam situasi darurat."
+        },
+        {
+            question: "Sebuah keluarga memiliki dua anak. Jika anak pertama adalah perempuan, berapa probabilitas anak kedua juga perempuan?",
+            options: [
+                "A. 25%",
+                "B. 33%",
+                "C. 50%",
+                "D. 75%",
+                "E. 100%"
+            ],
+            correctAnswer: 2,
+            explanation: "Jenis kelamin anak kedua independen dari anak pertama. Probabilitasnya tetap 50%, kecuali ada informasi tambahan tentang kecenderungan genetik."
+        },
+        {
+            question: "Aku diproduksi untuk dimakan, tetapi jika kau memakanku, kau tidak memakanku. Apakah aku?",
+            options: [
+                "A. Permen karet",
+                "B. Racun",
+                "C. Piring",
+                "D. Makanan palsu",
+                "E. Kail pancing"
+            ],
+            correctAnswer: 2,
+            explanation: "Piring dibuat untuk makanan (dipakai saat makan), tetapi Anda tidak benar-benar memakan piringnya. Permen karet (A) bisa dimakan meski tidak ditelan."
+        },
+        {
+            question: "Jika 3 kucing bisa menangkap 3 tikus dalam 3 menit, berapa waktu yang dibutuhkan 100 kucing untuk menangkap 100 tikus?",
+            options: [
+                "A. 1 menit",
+                "B. 3 menit",
+                "C. 33 menit",
+                "D. 100 menit",
+                "E. 300 menit"
+            ],
+            correctAnswer: 1,
+            explanation: "Setiap kucing membutuhkan 3 menit untuk menangkap 1 tikus. Jadi 100 kucing juga butuh 3 menit untuk masing-masing menangkap 1 tikus (total 100 tikus)."
+        },
+        {
+            question: "Aku selalu menyala tetapi tidak pernah terbakar. Aku bisa mati tetapi tidak pernah hidup. Apakah aku?",
+            options: [
+                "A. Lilin",
+                "B. Bintang",
+                "C. Lampu",
+                "D. Bulan",
+                "E. Lentera"
+            ],
+            correctAnswer: 3,
+            explanation: "Bulan 'menyala' (memantulkan cahaya) tetapi tidak terbakar, dan bisa 'mati' (bulan mati) tetapi tidak pernah hidup. Bintang (B) bisa terbakar (reaksi nuklir)."
+        },
+        {
+            question: "Dua orang ayah dan dua orang anak membeli tiga apel. Masing-masing mendapat satu apel utuh. Bagaimana mungkin?",
+            options: [
+                "A. Salah satu adalah calon ayah",
+                "B. Ada kakek, ayah, dan anak",
+                "C. Mereka membeli apel tambahan",
+                "D. Satu apel dibagi dua",
+                "E. Salah satu adalah ayah angkat"
+            ],
+            correctAnswer: 1,
+            explanation: "Kelompok itu terdiri dari kakek (ayah dari ayah), ayah (ayah dari anak), dan anak. Total dua ayah dan dua anak, tetapi hanya tiga orang, sehingga tiga apel cukup untuk masing-masing satu."
+        },
+		{
+            question: "Aku berbicara tanpa mulut dan mendengar tanpa telinga. Aku tidak punya tubuh, tetapi aku hidup dengan angin. Apakah aku?",
+            options: [
+                "A. Gema",
+                "B. Bayangan",
+                "C. Mimpi",
+                "D. Asap",
+                "E. Pantulan"
+            ],
+            correctAnswer: 0,
+            explanation: "Gema bisa 'berbicara' (mengulang suara) tanpa mulut dan 'mendengar' (menangkap suara) tanpa telinga. Gema muncul karena angin di tempat-tempat tertentu seperti gua."
+        },
+        {
+            question: "Sebuah pohon tumbang di hutan dimana tidak ada seorang pun yang mendengarnya. Apakah pohon itu mengeluarkan suara?",
+            options: [
+                "A. Ya, karena hukum fisika tetap berlaku",
+                "B. Tidak, karena suara butuh pendengar untuk eksis",
+                "C. Hanya hewan yang mendengarnya",
+                "D. Tergantung definisi 'suara'",
+                "E. Tidak bisa dipastikan"
+            ],
+            correctAnswer: 3,
+            explanation: "Ini adalah paradoks filosofis klasik. Jawaban tergantung pada definisi suara - apakah sebagai gelombang udara (A) atau persepsi pendengaran (B). Jawaban paling tepat adalah D yang mengakui kompleksitas masalah."
+        },
+        {
+            question: "Jika semua X adalah Y, beberapa Y adalah Z, dan tidak ada Z yang adalah W, maka pernyataan mana yang pasti salah?",
+            options: [
+                "A. Beberapa X adalah W",
+                "B. Semua W adalah Y",
+                "C. Beberapa Y bukan Z",
+                "D. Semua X adalah Z",
+                "E. Beberapa Z adalah X"
+            ],
+            correctAnswer: 1,
+            explanation: "Pernyataan 'Semua W adalah Y' pasti salah karena tidak ada Z yang adalah W, dan beberapa Y adalah Z, berarti tidak mungkin semua W bisa menjadi Y (karena pasti bertabrakan dengan hubungan Z)."
+        },
+        {
+            question: "Aku bukan hidup, tapi aku bisa tumbuh. Aku tidak punya paru-paru, tapi aku butuh udara. Aku tidak punya mulut, tapi air bisa membunuhku. Apakah aku?",
+            options: [
+                "A. Tanaman",
+                "B. Es",
+                "C. Lilin",
+                "D. Jamur",
+                "E. Api"
+            ],
+            correctAnswer: 4,
+            explanation: "Api bisa 'tumbuh' (menyebar), butuh udara (oksigen), dan bisa dipadamkan oleh air. Api bukan makhluk hidup tetapi memiliki karakteristik seperti bernapas dan tumbuh secara metaforis."
+        },
+        {
+            question: "Di sebuah pulau terpencil ada dua suku: Pembohong yang selalu berbohong, dan Penjujur yang selalu jujur. Anda bertemu dua orang. A berkata 'B adalah Pembohong', dan B berkata 'Kami berdua dari suku yang sama'. Siapa yang Penjujur?",
+            options: [
+                "A. Hanya A",
+                "B. Hanya B",
+                "C. Keduanya",
+                "D. Tidak keduanya",
+                "E. Tidak bisa ditentukan"
+            ],
+            correctAnswer: 0,
+            explanation: "Jika B jujur, pernyataannya 'kami sama suku' akan benar, tetapi A (sebagai Penjujur) tidak mungkin mengatakan B Pembohong. Kontradiksi. Jika B Pembohong, maka 'kami sama suku' adalah bohong, berarti berbeda suku, dan pernyataan A bahwa B Pembohong menjadi benar. Jadi A Penjujur, B Pembohong."
+        },
+        {
+            question: "Aku bisa berjalan mengelilingi dunia sambil tetap berada di pojokan. Apakah aku?",
+            options: [
+                "A. Matahari",
+                "B. Perangko",
+                "C. Koin",
+                "D. Jam dinding",
+                "E. Bola dunia"
+            ],
+            correctAnswer: 1,
+            explanation: "Perangko di sudut surat bisa 'mengelilingi dunia' melalui pos sementara tetap di sudut surat tersebut. Koin (C) dan bola dunia (E) bisa bergerak fisik, tidak tetap di pojokan."
+        },
+        {
+            question: "Sebuah pesawat jatuh tepat di perbatasan antara Amerika Serikat dan Kanada. Di negara mana korban selamat harus dikuburkan?",
+            options: [
+                "A. Amerika Serikat",
+                "B. Kanada",
+                "C. Keduanya",
+                "D. Tidak perlu dikubur",
+                "E. Di tempat netral"
+            ],
+            correctAnswer: 3,
+            explanation: "Korban 'selamat' tidak perlu dikuburkan karena masih hidup. Pertanyaan ini menjebak dengan membuat fokus pada lokasi kecelakaan daripada status korban."
+        },
+        {
+            question: "Aku menjadi lebih panjang saat dipotong. Apakah aku?",
+            options: [
+                "A. Rambut",
+                "B. Karet gelang",
+                "C. Lubang",
+                "D. Umur",
+                "E. Waktu"
+            ],
+            correctAnswer: 2,
+            explanation: "Lubang akan 'lebih panjang' (dalam arti lebih dalam) ketika Anda memotong/menggalinya. Karet gelang (B) bisa memanjang saat ditarik, bukan dipotong."
+        },
+        {
+            question: "Jika kemarin adalah hari sebelum Senin, dan besok adalah hari setelah Jumat, hari apa hari ini?",
+            options: [
+                "A. Senin",
+                "B. Selasa",
+                "C. Rabu",
+                "D. Kamis",
+                "E. Jumat"
+            ],
+            correctAnswer: 4,
+            explanation: "Jika besok Sabtu (hari setelah Jumat), maka hari ini Jumat. Kemarin Kamis (hari sebelum Jumat) yang juga hari sebelum Senin (karena Kamis memang sebelum Senin dalam urutan mundur)."
+        },
+        {
+            question: "Aku penuh dengan kunci tetapi tidak bisa membuka apa pun. Aku punya ruang tetapi tidak ada ruangan. Aku bisa memberi tempat tetapi tidak bisa menampung. Apakah aku?",
+            options: [
+                "A. Lemari",
+                "B. Peta",
+                "C. Keyboard",
+                "D. Penjara",
+                "E. Brankas"
+            ],
+            correctAnswer: 2,
+            explanation: "Keyboard komputer penuh dengan 'kunci' (tombol/key), memiliki 'space' (ruang/spasi), dan 'memberi tempat' untuk mengetik tanpa benar-benar menampung benda fisik. Peta (B) memiliki beberapa karakteristik tetapi tidak dengan kunci."
+        },
+		{
+            question: "Aku adalah awal dari akhir, dan akhir dari waktu dan ruang. Aku penting dalam penciptaan, dan selalu mengelilingi setiap tempat. Apakah aku?",
+            options: [
+                "A. Titik",
+                "B. Huruf 'E'",
+                "C. Cahaya",
+                "D. Angka nol",
+                "E. Atom"
+            ],
+            correctAnswer: 1,
+            explanation: "Huruf 'E' adalah awal kata 'end' (akhir) dan akhir kata 'time' (waktu) dan 'space' (ruang). Juga awal kata 'creation' (penciptaan) dan terdapat dalam kata 'everywhere' (setiap tempat). Solusi ini membutuhkan pemikiran linguistik mendalam."
+        },
+        {
+            question: "Sebuah keluarga terdiri dari dua orang tua dan enam anak. Setiap anak memiliki satu adik. Berapa total anggota keluarga tersebut?",
+            options: [
+                "A. 8",
+                "B. 9",
+                "C. 10",
+                "D. 7",
+                "E. 11"
+            ],
+            correctAnswer: 1,
+            explanation: "Ada 2 orang tua + 6 anak = 8 orang. Tetapi 'setiap anak memiliki satu adik' berarti ada 1 anak termuda yang menjadi adik bagi semua anak lainnya (bukan 6 adik berbeda). Jadi total tetap 9 (2 orang tua + 6 anak + 1 adik yang sudah termasuk dalam 6 anak)."
+        },
+        {
+            question: "Jika di Jakarta pukul 12 siang, kapal berangkat dari Tanjung Priok menuju Surabaya dengan kecepatan 20 knot. Di saat bersamaan, kapal lain berangkat dari Surabaya ke Jakarta dengan kecepatan 20 knot. Mana yang akan lebih dulu melihat kapal lainnya?",
+            options: [
+                "A. Kapal dari Jakarta",
+                "B. Kapal dari Surabaya",
+                "C. Bersamaan",
+                "D. Tidak akan bertemu",
+                "E. Tergantung cuaca"
+            ],
+            correctAnswer: 2,
+            explanation: "Kedua kapal akan bertemu di titik yang sama dan saling melihat pada waktu yang bersamaan karena kecepatan dan waktu berangkat sama. Pertanyaan ini menguji pemahaman tentang gerak relatif."
+        },
+        {
+            question: "Aku adalah segalanya bagi seseorang, tapi tidak berarti bagi orang lain. Aku bisa membuatmu bahagia atau sedih. Aku bisa panjang atau pendek. Aku selalu ada di masa lalu dan masa depan, tapi tidak pernah di masa sekarang. Apakah aku?",
+            options: [
+                "A. Cinta",
+                "B. Uang",
+                "C. Nama",
+                "D. Kenangan",
+                "E. Waktu"
+            ],
+            correctAnswer: 3,
+            explanation: "Kenangan berarti segalanya bagi pemiliknya, bisa membahagiakan atau menyedihkan, bisa panjang atau pendek. Selalu tentang masa lalu (kenangan) atau masa depan (harapan), tapi tidak pernah saat ini (yang akan menjadi kenangan)."
+        },
+        {
+            question: "Di sebuah ruangan gelap ada lilin, kompor minyak, dan lampu gas. Kamu hanya punya satu batang korek api. Apa yang akan kamu nyalakan pertama kali?",
+            options: [
+                "A. Lilin",
+                "B. Kompor minyak",
+                "C. Lampu gas",
+                "D. Semuanya",
+                "E. Korek apinya sendiri"
+            ],
+            correctAnswer: 4,
+            explanation: "Untuk menyalakan apapun di ruangan gelap, pertama-tama Anda harus menyalakan korek api itu sendiri. Pertanyaan ini menguji pemahaman tentang prioritas dasar."
+        },
+        {
+            question: "Aku selalu berlari tetapi tidak pernah berjalan. Aku punya mulut tetapi tidak pernah makan. Aku punya tempat tidur tetapi tidak pernah tidur. Apakah aku?",
+            options: [
+                "A. Sungai",
+                "B. Jam",
+                "C. Kereta api",
+                "D. Pohon",
+                "E. Mobil"
+            ],
+            correctAnswer: 0,
+            explanation: "Sungai 'berlari' (mengalir), memiliki 'mulut' sungai, dan memiliki 'tempat tidur' sungai. Kereta api (C) dan mobil (E) bisa berjalan, jam (B) tidak punya mulut metaforis."
+        },
+        {
+            question: "Jika 2 orang menggali lubang dalam 2 jam, berapa orang yang dibutuhkan untuk menggali setengah lubang dalam waktu yang sama?",
+            options: [
+                "A. 0.5 orang",
+                "B. 1 orang",
+                "C. 2 orang",
+                "D. 4 orang",
+                "E. Tidak bisa digali"
+            ],
+            correctAnswer: 1,
+            explanation: "Jika 2 orang menggali 1 lubang dalam 2 jam, maka 1 orang menggali 0.5 lubang dalam 2 jam. 'Setengah lubang' tidak ada dalam realitas fisik, tetapi secara matematis jawabannya 1 orang."
+        },
+        {
+            question: "Aku tidak terlihat, tidak berbobot, tapi jika dimasukkan ke dalam tong, tong akan menjadi lebih ringan. Apakah aku?",
+            options: [
+                "A. Udara",
+                "B. Lubang",
+                "C. Cahaya",
+                "D. Bayangan",
+                "E. Gas helium"
+            ],
+            correctAnswer: 1,
+            explanation: "Lubang tidak terlihat dan tidak berbobot. Jika Anda memasukkan lubang ke dalam tong (dengan membuat lubang di tong), tong akan kehilangan material sehingga lebih ringan. Gas helium (E) memiliki berat meski ringan."
+        },
+        {
+            question: "Sebuah jam berdentang setiap 1 jam (1 kali pada jam 1, 2 kali pada jam 2, dst.). Jika butuh 6 detik untuk jam berdentang 3 kali, berapa detik yang dibutuhkan untuk jam berdentang 6 kali?",
+            options: [
+                "A. 12 detik",
+                "B. 15 detik",
+                "C. 18 detik",
+                "D. 24 detik",
+                "E. 30 detik"
+            ],
+            correctAnswer: 1,
+            explanation: "Dentang ke-1 pada detik 0, ke-2 pada detik 3, ke-3 pada detik 6 (total 6 detik untuk 3 dentang = interval 3 detik). Untuk 6 dentang: dentang ke-1 (0), ke-2 (3), ke-3 (6), ke-4 (9), ke-5 (12), ke-6 (15) = total 15 detik."
+        },
+        {
+            question: "Dua orang asing bertemu di jalan. Yang satu adalah ayah dari anak perempuan yang lain. Bagaimana hubungan mereka?",
+            options: [
+                "A. Ayah dan anak",
+                "B. Suami dan istri",
+                "C. Kakek dan cucu",
+                "D. Paman dan keponakan",
+                "E. Saudara kandung"
+            ],
+            correctAnswer: 1,
+            explanation: "Orang pertama adalah ayah dari anak perempuan orang kedua, berarti orang kedua adalah ibu dari anak tersebut. Jadi hubungan mereka adalah suami (ayah) dan istri (ibu)."
+        },
+		 {
+            question: "Aku selalu ada di depanmu tetapi tak pernah terlihat. Aku selalu mengejarmu tetapi tak pernah menangkapmu. Aku akan segera datang tetapi tak pernah tiba. Apakah aku?",
+            options: [
+                "A. Bayangan",
+                "B. Masa Depan",
+                "C. Cakrawala",
+                "D. Angin",
+                "E. Usia"
+            ],
+            correctAnswer: 2,
+            explanation: "Cakrawala selalu 'di depan' tetapi tak pernah bisa dicapai, selalu 'mengejar' saat Anda bergerak tetapi tak pernah tertangkap, dan selalu 'akan datang' tetapi tak pernah benar-benar tiba. Masa depan (B) mirip tetapi tidak menjelaskan aspek pengejaran."
+        },
+        {
+            question: "Jika semua A adalah B, beberapa B adalah C, tidak ada C yang adalah D, dan beberapa D adalah A, maka pernyataan mana yang pasti benar?",
+            options: [
+                "A. Beberapa A bukan D",
+                "B. Tidak ada B yang adalah D",
+                "C. Beberapa C adalah A",
+                "D. Semua D adalah B",
+                "E. Tidak ada A yang adalah C"
+            ],
+            correctAnswer: 0,
+            explanation: "Dari 'beberapa D adalah A' dan 'tidak ada C yang adalah D', maka pasti ada bagian A yang tidak beririsan dengan D. Pernyataan lain bisa benar tetapi tidak pasti."
+        },
+        {
+            question: "Sebuah jam digital menunjukkan 01:01. Jumlah angka yang menyala adalah 2 (untuk 0) + 5 (untuk 1) = 7. Berapa total angka yang menyala dari 00:00 hingga 23:59 dalam satu hari penuh?",
+            options: [
+                "A. 2.928",
+                "B. 3.456",
+                "C. 4.104",
+                "D. 5.112",
+                "E. 6.048"
+            ],
+            correctAnswer: 2,
+            explanation: "Perhitungan kompleks: 0 muncul 1.440x (6x/jam×24), 1 muncul 720x, 2 muncul 864x, dst. Total segmen yang menyala: (6×1.440×6) + (2×720×2) + (5×864×5) + ... = 4.104."
+        },
+        {
+            question: "Aku bisa terbang tanpa sayap, menangis tanpa mata. Di mana pun aku pergi, kegelapan lenyap. Apakah aku?",
+            options: [
+                "A. Matahari",
+                "B. Awan",
+                "C. Fajar",
+                "D. Bulan",
+                "E. Pelita"
+            ],
+            correctAnswer: 1,
+            explanation: "Awan 'terbang' tanpa sayap, 'menangis' (hujan), dan menghilangkan kegelapan saat menutupi matahari. Matahari (A) tidak tepat karena tidak menangis, fajar (C) bukan objek fisik."
+        },
+        {
+            question: "Di sebuah pulau ada dua suku: Pembohong (selalu bohong) dan Penjujur (selalu jujur). Anda bertemu tiga orang. X berkata: 'Y adalah Pembohong', Y berkata: 'X dan Z berbeda suku', Z berkata: 'A adalah Penjujur'. Siapa yang pasti Penjujur?",
+            options: [
+                "A. Hanya X",
+                "B. Hanya Y",
+                "C. Hanya Z",
+                "D. X dan Z",
+                "E. Y dan Z"
+            ],
+            correctAnswer: 1,
+            explanation: "Jika X jujur, maka Y pembohong, maka pernyataan Y salah (X dan Z sama suku), berarti Z pembohong (kontradiksi dengan pernyataan Z). Jika X pembohong, maka Y jujur, maka X dan Z berbeda suku (X pembohong, Z jujur), dan pernyataan Z benar (A tidak ada). Jadi hanya Y yang pasti jujur."
+        },
+        {
+            question: "Aku selalu lapar ketika bekerja, dan mati ketika diberi makan. Apakah aku?",
+            options: [
+                "A. Mesin",
+                "B. Lampu",
+                "C. Api",
+                "D. Tanaman",
+                "E. Jam"
+            ],
+            correctAnswer: 2,
+            explanation: "Api 'lapar' (butuh bahan bakar) saat 'bekerja' (menyala), dan 'mati' ketika 'diberi makan' (dilempari air untuk memadamkan). Mesin (A) tidak mati ketika diberi bahan bakar."
+        },
+        {
+            question: "Jika 3 burung bisa menangkap 3 ulat dalam 3 menit, berapa waktu yang dibutuhkan 1 burung untuk menangkap 1 ulat?",
+            options: [
+                "A. 1 menit",
+                "B. 3 menit",
+                "C. 6 menit",
+                "D. 9 menit",
+                "E. Tidak bisa ditentukan"
+            ],
+            correctAnswer: 1,
+            explanation: "Setiap burung butuh 3 menit untuk menangkap 1 ulat (analog dengan soal kucing-tikus). Ini menguji pemahaman tentang rasio kerja independen."
+        },
+        {
+            question: "Aku punya kota tanpa rumah, sungai tanpa air, dan hutan tanpa pohon. Apakah aku?",
+            options: [
+                "A. Globe",
+                "B. Peta",
+                "C. Mimpi",
+                "D. Fotografi udara",
+                "E. Lukisan abstrak"
+            ],
+            correctAnswer: 1,
+            explanation: "Peta memiliki representasi kota (titik/tanda), sungai (garis), dan hutan (area warna) tanpa elemen fisik sebenarnya. Globe (A) memiliki representasi 3D yang lebih nyata."
+        },
+        {
+            question: "Sebuah keluarga memiliki tiga anak perempuan dan masing-masing anak perempuan memiliki satu saudara laki-laki. Berapa total anak dalam keluarga tersebut?",
+            options: [
+                "A. 3",
+                "B. 4",
+                "C. 5",
+                "D. 6",
+                "E. 7"
+            ],
+            correctAnswer: 1,
+            explanation: "Ada 3 anak perempuan + 1 saudara laki-laki (yang sama untuk semua anak perempuan) = total 4 anak. Ini menguji pemahaman tentang hubungan saudara yang dibagikan."
+        },
+        {
+            question: "Aku bisa mengukur waktu tetapi bukan jam. Aku bisa menampung air tetapi bukan gelas. Aku bisa menahan beban tetapi bukan meja. Apakah aku?",
+            options: [
+                "A. Ember",
+                "B. Kaleng",
+                "C. Guci",
+                "D. Pasir",
+                "E. Batu"
+            ],
+            correctAnswer: 3,
+            explanation: "Pasir bisa mengukur waktu (jam pasir), menampung air (sementara), dan menahan beban (pondasi). Ember (A) dan guci (C) tidak bisa mengukur waktu secara independen."
+        }
+		
         ];
         
         // Initialize the application
@@ -1255,7 +1747,7 @@
                 answers: Array(QUIZ_QUESTIONS.length).fill(null)
             };
             
-            // Shuffle questions
+            // Shuffle questions (soal akan diacak otomatis setiap kali quiz dimulai)
             questions = shuffleArray(QUIZ_QUESTIONS);
             
             // Play opening audio
@@ -1280,7 +1772,7 @@
             }, 500);
         }
         
-        // Helper function to shuffle array
+        // Helper function to shuffle array (untuk mengacak soal)
         function shuffleArray(array) {
             const newArray = [...array];
             for (let i = newArray.length - 1; i > 0; i--) {
@@ -1315,10 +1807,12 @@
             timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             // Change style based on remaining time
-            if (quizTimeLeft <= 60) { // 1 minute or less
+            if (quizTimeLeft <= 300) { // 5 minutes or less
                 timerElement.classList.add('timer-danger');
+            } else if (quizTimeLeft <= 900) { // 15 minutes or less
+                timerElement.classList.add('timer-warning');
             } else {
-                timerElement.classList.remove('timer-danger');
+                timerElement.classList.remove('timer-danger', 'timer-warning');
             }
         }
         
@@ -1599,7 +2093,7 @@
         
         function retakeQuiz() {
             // Reset quiz time
-            quizTimeLeft = 5 * 60;
+            quizTimeLeft = 60 * 60; // Reset ke 60 menit
             
             // Hide results screen with slide out animation
             document.getElementById('results-screen').classList.add('slide-out');
